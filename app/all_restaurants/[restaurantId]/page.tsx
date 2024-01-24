@@ -28,7 +28,13 @@ export default async function Restaurant({ params }: any) {
     const data = await getData(params.restaurantId)
     return (
         <main className="bg-white flex flex-col items-center gap-2">
+            <div className="text-xl">
+                Restaurant Detail
+            </div>
             <ImageUpload id={params.restaurantId} item={false} restaurant={true} />
+            <div className="text-lg">
+                Items in this restaurant
+            </div>
             <ItemsTable columns={columns} data={data} />
         </main>
     );

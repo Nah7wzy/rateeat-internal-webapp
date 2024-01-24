@@ -1,13 +1,12 @@
 "use client"
-import { useParams } from "next/navigation";
 import { FormEvent, useState } from "react";
 
-export default function ImageUpload({ id, item, restaurant }: { id: string | string[], item: boolean, restaurant: boolean}) {
-    const [file, setFile] = useState<File>();
+export default function ImageUpload({ id, item, restaurant }: { id: string | string[], item: boolean, restaurant: boolean }) {
+    const [file, setFile] = useState<FileList>();
 
     function handleChange(files: FileList | null) {
         console.log(files);
-        if (files) setFile(files[0]);
+        if (files) setFile(files);
     }
 
     function handleSubmit(e: FormEvent<HTMLFormElement>) {
@@ -18,7 +17,11 @@ export default function ImageUpload({ id, item, restaurant }: { id: string | str
         const base_url = process.env.BASE_URL;
         if (!base_url) throw new Error('BASE_URL is not defined')
 
-        if (file) formData.append("item_images", file);
+        if (file) {
+            for (let i = 0; i < file.length; i++) {
+                formData.append('item_images', file[i]);
+            }
+        }
 
         formData.append('Content-Type', 'multipart/form-data; boundary=---------------' + Date.now())
 
@@ -39,8 +42,15 @@ export default function ImageUpload({ id, item, restaurant }: { id: string | str
         <>
             <form onSubmit={handleSubmit} className="App">
                 <h2>Add Image:</h2>
-                <input type="file" onChange={(e) => handleChange(e.target.files)} />
-                <img src={file && URL.createObjectURL(file)} width={60} />
+                <input type="file" onChange={(e) => handleChange(e.target.files)} multiple />
+
+                <div className="flex gap-2">
+                    {
+                        file && Array.from(file).map((f, idx) => (
+                            <img key={idx} src={file && URL.createObjectURL(f)} width={60} />
+                        ))
+                    }
+                </div>
                 <button type="submit">
                     SUBMIT
                 </button>
