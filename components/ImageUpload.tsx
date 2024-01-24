@@ -1,7 +1,7 @@
 "use client"
 import { FormEvent, useState } from "react";
 
-export default function ImageUpload({ id, item, restaurant }: { id: string | string[], item: boolean, restaurant: boolean }) {
+export default function ImageUpload({ id, item, restaurant }: { id: string | string[] | undefined, item: boolean, restaurant: boolean }) {
     const [file, setFile] = useState<FileList>();
 
     function handleChange(files: FileList | null) {
@@ -42,7 +42,7 @@ export default function ImageUpload({ id, item, restaurant }: { id: string | str
         <>
             <form onSubmit={handleSubmit} className="App">
                 <h2>Add Image:</h2>
-                <input type="file" onChange={(e) => handleChange(e.target.files)} multiple />
+                <input type="file" onChange={(e) => handleChange(e.target.files)} multiple className="w-full h-24 bg-slate-200 rounded-lg"/>
 
                 <div className="flex gap-2">
                     {
