@@ -1,3 +1,4 @@
+import ImageUpload from "@/components/ImageUpload";
 import { itemColumns as columns } from "./columns";
 import { ItemsTable } from "./data-table-items";
 
@@ -26,8 +27,8 @@ async function getData(restaurantId: string) {
 export default async function Restaurant({ params }: any) {
     const data = await getData(params.restaurantId)
     return (
-        <main className="bg-white flex flex-col items-center">
-            <div>Restaurant</div>
+        <main className="bg-white flex flex-col items-center gap-2">
+            <ImageUpload id={params.restaurantId} item={false} restaurant={true} />
             <ItemsTable columns={columns} data={data} />
         </main>
     );
