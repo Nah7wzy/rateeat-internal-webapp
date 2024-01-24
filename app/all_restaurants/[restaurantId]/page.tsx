@@ -18,7 +18,7 @@ async function getRestaurantDetail(restaurantId: string){
     console.log('Response Data:', responseData)
     
     const restaurantImages = responseData.data.restaurant_images;
-    console.log('These are the item images; ', restaurantImages)
+    console.log('These are the restaurant images; ', restaurantImages)
 
     return restaurantImages;
 }
