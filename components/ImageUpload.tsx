@@ -14,7 +14,7 @@ export default function ImageUpload({ id, item, restaurant }: { id: string | str
         console.log(file);
         let formData = new FormData();
 
-        const base_url = process.env.BASE_URL;
+        const base_url = process.env.NEXT_PUBLIC_BASE_URL;
         if (!base_url) throw new Error('BASE_URL is not defined')
 
         if (file) {

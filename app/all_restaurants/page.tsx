@@ -2,7 +2,7 @@ import { RestaurantsTable } from "./data-table-restaurants";
 import { columns } from "./columns";
 
 async function getData() {
-    const base_url = process.env.BASE_URL;
+    const base_url = process.env.NEXT_PUBLIC_BASE_URL;
     
     if (!base_url) throw new Error('BASE_URL is not defined')
     const res = await fetch(`${base_url}/restaurants?limit=200`, {
