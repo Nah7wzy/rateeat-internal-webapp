@@ -1,0 +1,34 @@
+import { itemColumns as columns } from "./columns";
+import { ItemsTable } from "./data-table-items";
+
+
+async function getData(restaurantId: string) {
+    const base_url = process.env.BASE_URL;
+    if (!base_url) throw new Error('BASE_URL is not defined')
+    const res = await fetch(`${base_url}/restaurants/${restaurantId}/items?limit=200`, {
+        method: 'GET',
+    })
+
+    if (!res.ok) {
+        // This will activate the closest `error.js` Error Boundary
+        throw new Error('Failed to fetch data')
+    }
+    const responseData = await res.json();
+
+    // Extract only the id and name from each item
+    const extractedData = responseData.data.map(({ id, name }: { id: string, name: string }) => ({ id, name }));
+
+    console.log('Extracted data:', extractedData);
+
+    return extractedData;
+}
+
+export default async function Restaurant({ params }: any) {
+    const data = await getData(params.restaurantId)
+    return (
+        <main className="bg-white flex flex-col items-center">
+            <div>Restaurant</div>
+            <ItemsTable columns={columns} data={data} />
+        </main>
+    );
+}
