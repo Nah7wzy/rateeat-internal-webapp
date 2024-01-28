@@ -23,7 +23,7 @@ async function getRestaurantDetail(restaurantId: string){
     return restaurantImages;
 }
 
-async function getData(restaurantId: string) {
+export async function getData(restaurantId: string) {
     const base_url = process.env.NEXT_PUBLIC_BASE_URL;
     if (!base_url) throw new Error('BASE_URL is not defined')
     const res = await fetch(`${base_url}/restaurants/${restaurantId}/items?limit=200`, {

@@ -1,7 +1,7 @@
 import { RestaurantsTable } from "./data-table-restaurants";
 import { columns } from "./columns";
 
-async function getData() {
+export async function getAllRestaurantData() {
     const base_url = process.env.NEXT_PUBLIC_BASE_URL;
     
     if (!base_url) throw new Error('BASE_URL is not defined')
@@ -24,7 +24,7 @@ async function getData() {
 }
 
 export default async function AllRestaurants() {
-    const data = await getData()
+    const data = await getAllRestaurantData()
     return (
         <main className="flex flex-col items-center">
             <div className="text-6xl font-bold">All Restaurants</div>
