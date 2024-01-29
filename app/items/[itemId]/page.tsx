@@ -1,47 +1,39 @@
-"use client"
+"use server";
+import ImageUpload from "@/components/ImageUpload";
+import { getItemDetails } from "@/components/data/GetItemDetail";
+import { X } from "lucide-react";
 
-import { useParams, useSearchParams } from "next/navigation";
-import { FormEvent, useState } from "react";
-export default function ItemDetail() {
-    const itemId = useParams().itemId;
-    const [file, setFile] = useState<File>();
-    
-    function handleChange(files: FileList | null) {
-        console.log(files);
-        if (files) setFile(files[0]);
+export default async function ItemDetail({ params }: { params: any }) {
+    const itemId: string | string[] | undefined = params.itemId
+
+    const handleRemove = async () => {
+
+        const base_url = process.env.NEXT_PUBLIC_BASE_URL;
+        if (!base_url) throw new Error('BASE_URL is not defined')
+
+        console.log("Removing item with id: ", itemId)
     }
-    
-    function handleSubmit(e: FormEvent<HTMLFormElement>) {
-        e.preventDefault();
-        console.log(file);
-        let formData = new FormData();
-        
-        const base_url = process.env.BASE_URL;
-        if (!base_url)  throw new Error('BASE_URL is not defined')
 
-        if (file) formData.append("item_images", file);
-        
-        formData.append('Content-Type', 'multipart/form-data; boundary=---------------' + Date.now())
 
-        console.log(formData)
-        const req = fetch(`${base_url}/items/${itemId}/media`, {
-            method: "POST",
-            body: formData,
-        }).then((res) => {
-            console.log(res);
-        }).catch((err) => {
-            console.log(err);
-        });
-    }
+    console.log('this is the itemId', itemId)
+    const itemImages = await getItemDetails(itemId)
 
     return (
-        <form onSubmit={handleSubmit} className="App">
-            <h2>Add Image:</h2>
-            <input type="file" onChange={(e) => handleChange(e.target.files)} />
-            <img src={file && URL.createObjectURL(file)} width={60}/>
-            <button type="submit">
-                SUBMIT
-            </button>
-        </form>
+        <div className="flex flex-col items-center">
+            <div className="text-lg">Images for this item</div>
+            <div className="flex flex-col gap-2">
+                {
+                    itemImages.map((image: any) => (
+                        <div className="flex" key={image.id}>
+                            <img key={image.id} src={image.url} alt={image.id} width={80} height={'auto'} />
+                            <button key={image.id} className="py-2 px-4 rounded hover:bg-[#fb9090]" type="submit">
+                                <X size={24} color="black" />
+                            </button>
+                        </div>
+                    ))
+                }
+            </div>
+            <ImageUpload id={itemId} item={true} restaurant={false} />
+        </div>
     );
 }
