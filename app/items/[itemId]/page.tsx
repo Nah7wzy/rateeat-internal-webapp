@@ -3,37 +3,38 @@
 import ImageUpload from "@/components/ImageUpload";
 import { getItemDetails } from "@/components/data/GetItemDetail";
 import { X } from "lucide-react";
+import Link from "next/link";
 
 export default async function ItemDetail({ params }: { params: any }) {
     const itemId: string | string[] | undefined = params.itemId
 
     const handleRemove = async (imageId: string) => {
-  const base_url = process.env.NEXT_PUBLIC_BASE_URL;
-  if (!base_url) throw new Error('BASE_URL is not defined');
+        const base_url = process.env.NEXT_PUBLIC_BASE_URL;
+        if (!base_url) throw new Error('BASE_URL is not defined');
 
-  const requestBody = { itemImageUrls: imageId };
-  console.log('Request Payload:', JSON.stringify(requestBody));
+        const requestBody = { itemImageUrls: imageId };
+        console.log('Request Payload:', JSON.stringify(requestBody));
 
-  try {
-    const res = await fetch(`${base_url}/medias/items`, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(requestBody),
-    });
+        try {
+            const res = await fetch(`${base_url}/medias/items`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(requestBody),
+            });
 
-    if (res.ok) {
-      // Successful deletion
-      const responseData = await res.json();
-      console.log('Deleted item details:', responseData);
-    } else {
-      // Failed deletion
-      console.error('Failed to delete item');
-    }
-  } catch (error) {
-    console.error('Error during deletion:', error);
-  }
+            if (res.ok) {
+            // Successful deletion
+            const responseData = await res.json();
+            console.log('Deleted item details:', responseData);
+            } else {
+            // Failed deletion
+            console.error('Failed to delete item');
+            }
+        } catch (error) {
+            console.error('Error during deletion:', error);
+        }
 };
 
 
@@ -42,8 +43,11 @@ export default async function ItemDetail({ params }: { params: any }) {
     const itemImages = await getItemDetails(itemId)
 
     return (
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center gap-2">
             <div className="text-lg">Images for this item</div>
+            <div className="text-lg p-2">
+                <Link href={`/items/${itemId}/reviews`} className="hover:bg-blue-100 p-5 text-black">Reviews</Link>
+            </div>
             <div className="flex flex-col gap-2">
                 {
                     itemImages.map((image: any) => (
