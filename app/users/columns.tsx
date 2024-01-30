@@ -17,13 +17,11 @@ export const userColumns: ColumnDef<User>[] = [
         header: "ID",
         cell: ({row}) => {
             const user = row.original as User
-            return (
-                <>
-                    <Link href={`/users/${user.id}`}>
-                        {user.id}
-                    </Link>
-                </>
-            );
+            return <>
+                <Link href={`/users/${user.id}`} legacyBehavior>
+                    {user.id}
+                </Link>
+            </>;
         }
     },
     {

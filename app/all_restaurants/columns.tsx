@@ -16,13 +16,11 @@ export const columns: ColumnDef<Restaurant>[] = [
         header: "ID",
         cell: ({row}) => {
             const restaurant = row.original as Restaurant
-            return (
-                <>
-                    <Link href={`/all_restaurants/${restaurant.id}`}>
-                        {restaurant.id}
-                    </Link>
-                </>
-            );
+            return <>
+                <Link href={`/all_restaurants/${restaurant.id}`} legacyBehavior>
+                    {restaurant.id}
+                </Link>
+            </>;
         }
     },
     {

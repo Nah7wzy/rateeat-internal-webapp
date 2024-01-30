@@ -16,15 +16,13 @@ const ItemLink: React.FC<{ itemId: string }> = ({ itemId }) => {
     setIsClient(true);
   }, []);
 
-  return (
-    <>
-      {isClient && (
-        <Link href={`/items/${itemId}`}>
-          <a>{itemId}</a>
-        </Link>
-      )}
-    </>
-  );
+  return <>
+    {isClient && (
+      <Link href={`/items/${itemId}`}>
+        {itemId}
+      </Link>
+    )}
+  </>;
 };
 
 export const itemColumns: ColumnDef<Item>[] = [
